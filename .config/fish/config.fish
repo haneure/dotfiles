@@ -3,7 +3,7 @@ export TERM=xterm-256color
 
 # Environment variables
 set -gx EZA_CONFIG_DIR $HOME/.config/eva
-set -x OPENROUTER_API_KEY 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
+set -gx OPENROUTER_API_KEY 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
 
 # theme
 #set -g theme_color_scheme terminal-dark
@@ -48,3 +48,14 @@ switch (uname)
 end
 
 #starship init fish | source
+
+# pnpm
+set -gx PNPM_HOME "/Users/iak/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+set --export --prepend PATH "/Users/iak/.rd/bin"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
