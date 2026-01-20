@@ -21,27 +21,24 @@ return {
         "sql",
         "svelte",
 
-        -- JS/TS/Next.js
+        -- JS / TS / Vue
         "javascript",
         "typescript",
-        "tsx", -- for Next.js / React JSX in TS
+        "tsx",
         "vue",
-        "jsdoc", -- optional: comments/documentation syntax
-        "json", -- often needed with JS projects
-        "yaml", -- useful for Next.js configs too
-        "css",
-        "scss",
+        "jsdoc",
+        "json",
+        "yaml",
         "markdown",
 
         -- Python
         "python",
       },
 
-      -- matchup = {
-      -- 	enable = true,
-      -- },
+      highlight = { enable = true },
+      indent = { enable = true },
 
-      -- https://github.com/nvim-treesitter/playground#query-linter
+      -- Tree-sitter query linter
       query_linter = {
         enable = true,
         use_virtual_text = true,
@@ -50,9 +47,8 @@ return {
 
       playground = {
         enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = true, -- Whether the query persists across vim sessions
+        updatetime = 25,
+        persist_queries = true,
         keybindings = {
           toggle_query_editor = "o",
           toggle_hl_groups = "i",
@@ -67,10 +63,10 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
 
-      -- MDX
+    -- Runs BEFORE treesitter loads (safe place)
+    init = function()
+      -- MDX support
       vim.filetype.add({
         extension = {
           mdx = "mdx",

@@ -6,18 +6,10 @@ return {
     opts = {
       -- add any opts here
       -- for example
-      provider = "openrouter",
+      provider = "copilot",
       behaviour = {
         --- ... existing behaviours
         enable_cursor_planning_mode = true, -- enable cursor planning mode!
-      },
-      vendors = {
-        openrouter = {
-          __inherited_from = "openai",
-          endpoint = "https://openrouter.ai/api/v1",
-          api_key_name = "OPENROUTER_API_KEY",
-          model = "deepseek/deepseek-chat-v3-0324",
-        },
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -29,7 +21,7 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      "nvim-mini/mini.pick", -- for file_selector provider mini.pick
       "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
       "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
       "ibhagwan/fzf-lua", -- for file_selector provider fzf

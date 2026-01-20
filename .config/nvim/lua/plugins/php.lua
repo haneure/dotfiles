@@ -1,21 +1,28 @@
 return {
-  { -- Add a Treesitter parser for Laravel Blade to provide Blade syntax highlighting.
+  {
+    -- Tree-sitter support for Laravel Blade
     "nvim-treesitter/nvim-treesitter",
+
     opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
         "blade",
         "php_only",
       })
     end,
-    config = function(_, opts)
+
+    -- Must run BEFORE treesitter loads
+    init = function()
+      -- Detect Blade filetype
       vim.filetype.add({
         pattern = {
           [".*%.blade%.php"] = "blade",
         },
       })
 
-      require("nvim-treesitter.configs").setup(opts)
+      -- Register custom Blade parser
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
       parser_config.blade = {
         install_info = {
           url = "https://github.com/EmranMR/tree-sitter-blade",
@@ -26,9 +33,9 @@ return {
       }
     end,
   },
+
   {
-    -- Add the blade-nav.nvim plugin which provides Goto File capabilities
-    -- for Blade files.
+    -- Blade navigation (goto file, etc.)
     "ricardoramirezr/blade-nav.nvim",
     dependencies = {
       "hrsh7th/nvim-cmp",

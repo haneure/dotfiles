@@ -29,7 +29,7 @@ return {
 
   -- Go forward/backward with square brackets
   {
-    "echasnovski/mini.bracketed",
+    "nvim-mini/mini.bracketed",
     event = "BufReadPost",
     config = function()
       local bracketed = require("mini.bracketed")
@@ -86,5 +86,46 @@ return {
         help = true,
       },
     },
+  },
+
+  -- diffview
+  {
+    "sindrets/diffview.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    keys = {
+      { "<leader>gg", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
+      { "<leader>gG", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
+      { "<leader>gF", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview File History" },
+    },
+    config = function()
+      require("diffview").setup({
+        enhanced_diff_hl = true, -- Enhanced highlighting for diffs
+        use_icons = true, -- Use filetype icons (requires `nvim-web-devicons`)
+        file_panel = {
+          win_config = {
+            position = "left", -- Can be "left", "right", "top", "bottom"
+            width = 35,
+          },
+        },
+        keymaps = {
+          view = {
+            ["<leader>e"] = "<cmd>DiffviewToggleFiles<CR>", -- Toggle the file panel
+          },
+          file_panel = {
+            ["q"] = "<cmd>DiffviewClose<CR>", -- Quickly close diffview
+          },
+          file_history_panel = {
+            ["<leader>h"] = "<cmd>DiffviewFileHistory<CR>", -- Toggle file history
+          },
+        },
+        hooks = {
+          diff_buf_read = function(bufnr)
+            -- Customize diff buffer appearance
+            vim.bo[bufnr].syntax = "diff"
+            vim.wo[bufnr].wrap = false
+          end,
+        },
+      })
+    end,
   },
 }
