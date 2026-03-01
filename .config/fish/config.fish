@@ -35,6 +35,18 @@ function set_tmux_window_name --on-variable PWD
     end
 end
 
+# Auto-start tmux on interactive login shells
+if status is-interactive
+    # Avoid nesting tmux inside tmux
+    if not set -q TMUX
+        # Only do this on WSL
+        if test -n "$WSL_DISTRO_NAME"
+            # Attach if exists, else create
+            tmux attach -t main; or tmux new -s main
+        end
+    end
+end
+
 # functions
 function reload_fish
     source ~/.dotfiles/.config/fish/config.fish
@@ -57,6 +69,10 @@ if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+if not contains -- $HOME/.npm-global/bin $PATH
+    set -gx PATH $HOME/.npm-global/bin $PATH
+end
 
 # # --- NGINX MODE SWITCHER FOR FISH ---
 
@@ -97,3 +113,8 @@ end
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 set --export --prepend PATH "/Users/iak/.rd/bin"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# If WSL starts inside Windows mount, jump to home
+if string match -q "/mnt/*" (pwd)
+    cd ~
+end
